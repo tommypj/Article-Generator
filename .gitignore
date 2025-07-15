@@ -1,20 +1,32 @@
-# Node.js
+# Node.js dependencies
 node_modules/
-npm-debug.log
-.env                  # This line is crucial
-*.log                 # This will catch pglite-debug.log and other logs
-logs/                 # This will catch the logs folder
 
-# Firebase
-.firebase/
-firebase-debug.log
-
-# Build artifacts for frontend
+# Frontend build output
 frontend-app/public/app.bundle.js
 frontend-app/public/app.bundle.js.map
-frontend-app/node_modules/
+frontend-app/public/index.html # if it's generated, otherwise keep if manually edited HTML
 
-# Local development specific
-*.sqlite
+# Backend specific ignored files
+backend/node_modules/
+backend/package-lock.json # Keep if you manage package-lock at root, otherwise ignore
+
+# Environment variables
+.env
+**/.env # for nested .env files
+
+# Logs
+*.log
+logs/
+
+# Firebase-specific ignored files (from firebase init)
+.firebase/
+.firebaserc
+firebase-debug.log
+
+# IDE and OS generated files
+.vscode/
 .DS_Store
 Thumbs.db
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

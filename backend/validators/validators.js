@@ -29,6 +29,24 @@ class InputValidator {
                 is: Joi.exist().valid('summarizeArticle', 'expandSection'),
                 then: Joi.required(),
                 otherwise: Joi.optional()
+                .when('action', {
+                    is: Joi.exist().valid('summarizeArticle', 'expandSection'),
+                    then: Joi.required(),
+                    otherwise: Joi.optional()
+                })
+                .custom((value, helpers) => {
+                    // Simple heuristic: check if it contains common HTML tags
+                    if (!/<[a-z][\s\S]*>/i.test(value)) {
+                        return helpers.error('string.html', { value });
+                    }
+                    // You could use a lightweight HTML parser here to ensure it's well-formed enough,
+                    // but this adds overhead and might be better handled by a sanitizer.
+                    return value;
+                }, 'HTML Content Check')
+                .messages({
+                    'any.required': 'Conținutul articolului este obligatoriu pentru această acțiune.',
+                    'string.html': 'Conținutul articolului nu pare a fi HTML valid.' // Custom message
+                }),
             }).messages({
                 'any.required': 'Conținutul articolului este obligatoriu pentru această acțiune.'
             }),
@@ -68,40 +86,6 @@ class InputValidator {
         }
 
         return value;
-    }
-
-    parseGeminiJSON(text, stepName) {
-        try {
-            logger.debug('Parsing Gemini JSON response', {
-                stepName,
-                textLength: text.length
-            });
-
-            const cleanJsonText = text.replace(/```(?:json)?\s*\n?|\n?```/g, '').trim();
-            
-            if (!cleanJsonText) {
-                throw new Error(`Răspuns gol de la Gemini în ${stepName}`);
-            }
-
-            const parsed = JSON.parse(cleanJsonText);
-
-            if (!parsed || typeof parsed !== 'object') {
-                throw new Error(`Format invalid de răspuns în ${stepName}`);
-            }
-
-            logger.info('JSON parsed successfully', {
-                stepName,
-                keys: Object.keys(parsed)
-            });
-            return parsed;
-        } catch (error) {
-            logger.error('JSON parsing failed', {
-                stepName,
-                error: error.message,
-                textPreview: text.substring(0, Math.min(text.length, 500))
-            });
-            throw new Error(`Eroare la procesarea ${stepName}: ${error.message}. Răspuns brut: ${text.substring(0, Math.min(text.length, 500))}...`);
-        }
     }
 
     validateStepResponse(parsed, step) {

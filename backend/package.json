@@ -1,6 +1,6 @@
 {
     "name": "carina-blog-generator-backend",
-    "version": "1.0.0",
+    "version": "1.1.1",
     "private": true,
     "description": "AI-powered blog article generator backend Cloud Function",
     "main": "index.js",
@@ -18,6 +18,7 @@
         "express": "^4.18.2",
         "express-async-handler": "^1.2.0",
         "express-rate-limit": "^7.1.5",
+        "firebase-admin": "^13.4.0",
         "helmet": "^7.1.0",
         "joi": "^17.11.0",
         "jsdom": "^26.1.0",
