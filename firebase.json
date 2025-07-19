@@ -15,6 +15,7 @@
   },
   "functions": {
     "source": "backend", 
-    "runtime": "nodejs20"
+    "runtime": "nodejs20",
+    "serviceAccount": "tribal-bonito-466218-n5@appspot.gserviceaccount.com"
   }
 }

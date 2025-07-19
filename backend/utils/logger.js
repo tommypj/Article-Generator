@@ -22,7 +22,7 @@ const prodFormat = winston.format.combine(
 const logger = winston.createLogger({
     level: config.logging.level,
     format: config.app.nodeEnv === 'production' ? prodFormat : devFormat,
-    defaultMeta: { service: 'carina-blog-generator' },
+    defaultMeta: { service: 'article-generator' },
     transports: [
         new winston.transports.Console({
             handleExceptions: true,

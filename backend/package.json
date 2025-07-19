@@ -1,12 +1,12 @@
 {
-    "name": "carina-blog-generator-backend",
+    "name": "article-generator-backend",
     "version": "1.1.1",
     "private": true,
     "description": "AI-powered blog article generator backend Cloud Function",
     "main": "index.js",
     "scripts": {
         "start": "node index.js",
-        "deploy": "gcloud functions deploy generateReport --runtime nodejs20 --trigger-http --allow-unauthenticated --entry-point app --region us-central1 --set-env-vars GCP_PROJECT=carinas-article-genetation,GEMINI_MODEL=gemini-2.5-flash,GEMINI_MAX_TOKENS=24000 --service-account carinas-article-genetation@appspot.gserviceaccount.com --source=. --timeout=540s",
+        "deploy": "gcloud functions deploy generateReport --runtime nodejs20 --trigger-http --allow-unauthenticated --entry-point app --region us-central1 --set-env-vars CARINA_PROJECT_ID=tribal-bonito-466218-n5,GEMINI_MODEL=gemini-2.5-flash,GEMINI_MAX_TOKENS=24000 --service-account tribal-bonito-466218-n5@appspot.gserviceaccount.com --source=. --timeout=540s",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
@@ -19,6 +19,7 @@
         "express-async-handler": "^1.2.0",
         "express-rate-limit": "^7.1.5",
         "firebase-admin": "^13.4.0",
+        "firebase-functions": "^6.4.0",
         "helmet": "^7.1.0",
         "joi": "^17.11.0",
         "jsdom": "^26.1.0",
@@ -26,6 +27,6 @@
         "winston": "^3.11.0"
     },
     "engines": {
-        "node": ">=18.0.0"
+        "node": ">=20.0.0"
     }
 }

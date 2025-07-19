@@ -8,6 +8,7 @@ frontend-app/public/index.html # if it's generated, otherwise keep if manually e
 
 # Backend specific ignored files
 backend/node_modules/
+service-account-key.json # Keep if you manage service account keys at root, otherwise ignore
 backend/package-lock.json # Keep if you manage package-lock at root, otherwise ignore
 
 # Environment variables
@@ -30,3 +31,4 @@ Thumbs.db
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+backend/service-account-key.json
