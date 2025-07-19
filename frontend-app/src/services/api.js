@@ -1,6 +1,6 @@
 import { getAuth } from 'firebase/auth'; // Import getAuth
 
-const CLOUD_FUNCTION_URL = 'https://us-central1-tribal-bonito-466218-n5.cloudfunctions.net/app';
+const CLOUD_FUNCTION_URL = 'https://app-35sqwhgxpq-uc.a.run.app';
 
 const getAuthHeader = async () => {
     const auth = getAuth();

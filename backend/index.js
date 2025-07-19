@@ -82,6 +82,12 @@ async function getGeminiApiKey() {
     const name = `projects/${projectId}/secrets/${config.app.secretName}/versions/latest`;
     logger.info(`Attempting to access secret: ${name}`);
     console.log('index.js: Attempting to access secret:', name);
+
+    // MOVE THE INITIALIZATION HERE
+    const secretManagerClient = new SecretManagerServiceClient({
+      keyFilename: './service-account-key.json'
+    });
+
     try {
         const [version] = await secretManagerClient.accessSecretVersion({ name });
         console.log('index.js: Secret accessed successfully.');
