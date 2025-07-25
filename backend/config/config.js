@@ -3,7 +3,11 @@ const config = {
         port: process.env.PORT || 8080,
         nodeEnv: process.env.NODE_ENV || 'development',
         jsonLimit: process.env.JSON_LIMIT || '10mb',
-        allowedOrigins: process.env.ALLOWED_ORIGINS?.split(',') || ['https://tribal-bonito-466218-n5.web.app'],
+        allowedOrigins: (
+        process.env.ALLOWED_ORIGINS && process.env.ALLOWED_ORIGINS.trim()
+            ? process.env.ALLOWED_ORIGINS.split(',').map(o => o.trim()).filter(Boolean)
+            : ['https://tribal-bonito-466218-n5.web.app']
+        ),
         requestTimeout: parseInt(process.env.REQUEST_TIMEOUT) || 300000, // 5 minutes
         secretName: process.env.SECRET_NAME || 'carina-api-key',
     },

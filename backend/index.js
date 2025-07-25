@@ -131,16 +131,6 @@ console.log('index.js: globalGeminiInitialization called (non-blocking).');
 app.use(helmet()); 
 app.use(compression()); 
 
-// Configurare CORS
-app.use(cors({
-    origin: config.app.allowedOrigins, 
-    methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'], 
-    credentials: true
-}));
-console.log('index.js: CORS middleware configured.');
-
-
 // Configurare Rate Limiting - exclus health check
 const apiLimiter = rateLimit({
     windowMs: config.rateLimit.windowMs,
@@ -336,5 +326,30 @@ app.use((err, req, res, next) => {
     });
 });
 
-// Exportă aplicația Express pentru Cloud Functions
-exports.app = functions.https.onRequest(app);
+// Configure CORS manually for Cloud Run / 2nd Gen Firebase Functions
+// 8. Export Function with Manual CORS Handling (for Firebase 2nd Gen)
+
+exports.generateReport = functions.https.onRequest((req, res) => {
+  const allowedOrigins = config.app.allowedOrigins;
+  const origin = req.get('origin');
+
+  // Dynamically allow valid origin
+  if (allowedOrigins.includes(origin)) {
+    res.set('Access-Control-Allow-Origin', origin);
+    res.set('Vary', 'Origin');
+  }
+
+  // Always include these for preflight and main request
+  res.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.set('Access-Control-Allow-Credentials', 'true');
+
+  // Handle preflight request
+  if (req.method === 'OPTIONS') {
+    return res.status(204).send(); // Success with no content
+  }
+
+  // Forward request to Express app
+  app(req, res);
+});
+
